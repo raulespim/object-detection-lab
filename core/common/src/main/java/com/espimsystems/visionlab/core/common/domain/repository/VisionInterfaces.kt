@@ -1,0 +1,18 @@
+package com.espimsystems.visionlab.core.common.domain.repository
+
+import com.espimsystems.visionlab.core.common.domain.model.CameraFrame
+import com.espimsystems.visionlab.core.common.domain.model.DetectionBatch
+import com.espimsystems.visionlab.core.common.domain.model.PreprocessedFrame
+import kotlinx.coroutines.flow.Flow
+
+interface FrameSource {
+    val frames: Flow<CameraFrame>
+}
+
+interface ImagePreprocessor {
+    suspend fun preprocess(frame: CameraFrame): PreprocessedFrame
+}
+
+interface DetectorEngine {
+    suspend fun detect(frame: PreprocessedFrame): DetectionBatch
+}
