@@ -6,7 +6,7 @@ project("vision_native")
 
 # Adiciona a biblioteca e vincula ao arquivo fonte
 add_library(
-    ${PROJECT_NAME}
+    vision_native
     SHARED
     vision_native.cpp
 )
