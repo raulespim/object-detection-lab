@@ -32,16 +32,19 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+    androidResources {
+        noCompress += "tflite"
+    }
 }
 
 dependencies {
     implementation(project(":core:common"))
 
-    // Hilt
+    implementation(libs.tensorflow.lite)
+    implementation(libs.tensorflow.lite.gpu)
+    implementation("org.tensorflow:tensorflow-lite-gpu-api:2.16.1")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    // TFLite
-    implementation(libs.tensorflow.lite)
-    implementation(libs.tensorflow.lite.gpu) // for better performance
 }

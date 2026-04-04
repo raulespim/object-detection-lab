@@ -9,15 +9,16 @@ import androidx.compose.ui.viewinterop.AndroidView
 @Composable
 fun CameraPreview(
     modifier: Modifier = Modifier,
-    onPreviewViewCreated: (PreviewView) -> Unit
+    onPreviewViewCreated: (PreviewView) -> Unit,
 ) {
     AndroidView(
         modifier = modifier.fillMaxSize(),
         factory = { context ->
             PreviewView(context).apply {
-                scaleType = PreviewView.ScaleType.FILL_CENTER
+                scaleType = PreviewView.ScaleType.FIT_CENTER
+                implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                 onPreviewViewCreated(this)
             }
-        }
+        },
     )
 }

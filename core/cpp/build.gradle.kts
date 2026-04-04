@@ -25,6 +25,13 @@ android {
 
     ndkVersion = "26.1.10909125"
 
+    packaging {
+        jniLibs {
+            // Garante que as libs não sejam comprimidas (necessário para 16KB)
+            useLegacyPackaging = false
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false

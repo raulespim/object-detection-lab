@@ -10,9 +10,16 @@ interface FrameSource {
 }
 
 interface ImagePreprocessor {
-    suspend fun preprocess(frame: CameraFrame): PreprocessedFrame
+    suspend fun preprocess(
+        frame: CameraFrame,
+        targetWidth: Int,
+        targetHeight: Int,
+    ): PreprocessedFrame
 }
 
 interface DetectorEngine {
+    val inputWidth: Int
+    val inputHeight: Int
+
     suspend fun detect(frame: PreprocessedFrame): DetectionBatch
 }
