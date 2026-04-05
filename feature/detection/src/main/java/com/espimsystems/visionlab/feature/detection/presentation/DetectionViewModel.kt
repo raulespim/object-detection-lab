@@ -2,6 +2,7 @@ package com.espimsystems.visionlab.feature.detection.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.espimsystems.visionlab.core.dispatchers.AppDispatchers
 import com.espimsystems.visionlab.feature.detection.domain.usecase.DetectObjectsUseCase
 import com.espimsystems.visionlab.feature.detection.presentation.contract.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetectionViewModel @Inject constructor(
     private val detectObjectsUseCase: DetectObjectsUseCase,
+    private val dispatchers: AppDispatchers
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DetectionState())
@@ -31,13 +33,13 @@ class DetectionViewModel @Inject constructor(
     private fun startPipeline() {
         if (detectionJob?.isActive == true) return
 
-        detectionJob = viewModelScope.launch(Dispatchers.Default) {
+        detectionJob = viewModelScope.launch(dispatchers.default) {
             detectObjectsUseCase()
                 .catch { throwable ->
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            errorMessage = throwable.message ?: "Erro desconhecido no pipeline",
+                            errorMessage = throwable.message ?: "Unknown error from pipeline",
                         )
                     }
                 }

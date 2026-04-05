@@ -1,15 +1,13 @@
 package com.espimsystems.visionlab.feature.detection.domain.usecase
 
-import android.util.Log
 import com.espimsystems.visionlab.core.common.domain.model.DetectionBatch
 import com.espimsystems.visionlab.core.common.domain.repository.DetectorEngine
 import com.espimsystems.visionlab.core.common.domain.repository.FrameSource
 import com.espimsystems.visionlab.core.common.domain.repository.ImagePreprocessor
-import kotlinx.coroutines.Dispatchers
+import com.espimsystems.visionlab.core.dispatchers.AppDispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 
@@ -17,6 +15,7 @@ class DetectObjectsUseCase @Inject constructor(
     private val frameSource: FrameSource,
     private val preprocessor: ImagePreprocessor,
     private val detector: DetectorEngine,
+    private val dispatchers: AppDispatchers
 ) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -29,5 +28,5 @@ class DetectObjectsUseCase @Inject constructor(
             )
             detector.detect(preprocessedFrame)
         }
-        .flowOn(Dispatchers.Default)
+        .flowOn(dispatchers.default)
 }

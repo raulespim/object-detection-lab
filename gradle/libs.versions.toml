@@ -19,6 +19,11 @@ composeBom = "2024.10.01"
 tensorflowLite = "2.16.1"
 ndk = "26.1.10909125"
 
+# Benchmark / Profile
+benchmark = "1.4.1"
+uiautomator = "2.3.0"
+profileinstaller = "1.4.1"
+
 # Test
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -56,7 +61,11 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 # ML & TFLite
 tensorflow-lite = { group = "org.tensorflow", name = "tensorflow-lite", version.ref = "tensorflowLite" }
 tensorflow-lite-gpu = { group = "org.tensorflow", name = "tensorflow-lite-gpu", version.ref = "tensorflowLite" }
-tensorflow-lite-gpu-delegate-plugin = { group = "org.tensorflow", name = "tensorflow-lite-gpu-delegate-plugin", version.ref = "tensorflowLite" }
+
+# Benchmark
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmark" }
+androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
 
 # Test
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -66,6 +75,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+android-test = { id = "com.android.test", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

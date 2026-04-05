@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose) // Necessário para o Compose 2.0
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
 }
@@ -41,13 +41,12 @@ android {
 }
 
 dependencies {
-    // 1. Nossos módulos internos (Onde estão os UseCases e Models)
     implementation(project(":core:common"))
     implementation(project(":core:ml"))
     implementation(project(":core:cpp"))
-    implementation(project(":core:camera")) // Necessário para o Preview da Câmera
+    implementation(project(":core:camera"))
+    implementation(project(":core:dispatchers"))
 
-    // 2. AndroidX & Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
@@ -64,14 +63,11 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.lifecycle)
 
-    // 3. Hilt (DI)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // 4. Coroutines & Flow
     implementation(libs.kotlinx.coroutines.android)
 
-    // 5. Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
