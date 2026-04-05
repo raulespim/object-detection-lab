@@ -96,7 +96,6 @@ object-detection-lab/
 │   ├── common/                 # Shared contracts and domain models
 │   ├── dispatchers/            # Coroutine dispatchers / threading abstractions
 │   ├── designsystem/           # Theme, tokens, visual primitives
-│   ├── ui/                     # Reusable UI components
 │   ├── camera/                 # CameraX integration and frame ingestion
 │   ├── cpp/                    # JNI bridge + native image processing (C++)
 │   └── ml/                     # TFLite engine and ML-specific wiring
@@ -242,7 +241,6 @@ Natural next steps for evolving this lab include:
 - stronger frame-to-preview coordinate mapping
 - buffer reuse / pooling on the hot path
 - stage-by-stage timing instrumentation
-- macrobenchmark coverage for startup and frame processing
 - model label mapping and richer overlay data
 - multiple model support and runtime switching
 - smoother overlay animation between inference updates

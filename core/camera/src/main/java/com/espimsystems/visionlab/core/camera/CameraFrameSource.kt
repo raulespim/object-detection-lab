@@ -1,5 +1,6 @@
 package com.espimsystems.visionlab.core.camera
 
+import android.os.Trace
 import android.util.Log
 import androidx.camera.core.ImageProxy
 import com.espimsystems.visionlab.core.common.domain.model.CameraFrame
@@ -58,20 +59,27 @@ class CameraFrameSource @Inject constructor() : FrameSource {
     }
 
     private fun ImageProxy.PlaneProxy.toOwnedPlane(): CameraPlane {
-        val source = buffer.duplicate().apply { rewind() }
-        val ownedBuffer = ByteBuffer.allocateDirect(source.remaining())
-            .order(ByteOrder.nativeOrder())
-        ownedBuffer.put(source)
-        ownedBuffer.rewind()
+        Trace.beginSection(TRACE_CAMERA_FRAME_COPY)
+        return try {
+            val source = buffer.duplicate().apply { rewind() }
+            val ownedBuffer = ByteBuffer.allocateDirect(source.remaining())
+                .order(ByteOrder.nativeOrder())
 
-        return CameraPlane(
-            buffer = ownedBuffer,
-            rowStride = rowStride,
-            pixelStride = pixelStride,
-        )
+            ownedBuffer.put(source)
+            ownedBuffer.rewind()
+
+            CameraPlane(
+                buffer = ownedBuffer,
+                rowStride = rowStride,
+                pixelStride = pixelStride,
+            )
+        } finally {
+            Trace.endSection()
+        }
     }
 
     private companion object {
         const val TAG = "CameraFrameSource"
+        const val TRACE_CAMERA_FRAME_COPY = "camera.frame.copy"
     }
 }

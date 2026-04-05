@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,7 +43,11 @@ fun DetectionScreen(
     }
 
     PermissionBox {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .semantics { contentDescription = "detection_screen" },
+        ) {
             CameraPreview { previewView ->
                 cameraProviderFuture.addListener(
                     {
@@ -90,24 +96,26 @@ fun DetectionScreen(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(16.dp)
+                    .semantics { contentDescription = "runtime_hud" },
                 color = Color.Black.copy(alpha = 0.65f),
                 shape = MaterialTheme.shapes.medium,
             ) {
-                Column(modifier = Modifier.padding(12.dp)) {
+                Column(
+                    modifier = Modifier.padding(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
                     Text(
                         text = "Espim Systems - Vision Lab",
                         color = Color.Cyan,
                         style = MaterialTheme.typography.labelSmall,
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Objetos: ${state.detections.size} | Latência: ${"%.1f".format(state.inferenceTime)} ms",
                         color = Color.White,
                         style = MaterialTheme.typography.bodyMedium,
                     )
                     if (state.errorMessage != null) {
-                        Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = state.errorMessage,
                             color = Color.Red,
@@ -127,7 +135,6 @@ fun DetectionScreen(
         }
     }
 }
-
 @Composable
 private fun rememberSingleThreadExecutor(): ExecutorService = remember {
     Executors.newSingleThreadExecutor()

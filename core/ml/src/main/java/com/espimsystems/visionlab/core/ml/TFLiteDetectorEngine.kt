@@ -1,5 +1,6 @@
 package com.espimsystems.visionlab.core.ml
 
+import android.os.Trace
 import android.content.Context
 import android.util.Log
 import com.espimsystems.visionlab.core.common.domain.model.Detection
@@ -113,7 +114,12 @@ class TFLiteDetectorEngine @Inject constructor(
         val inputBuffer = prepareInputBuffer(frame)
 
         val elapsedNs = measureNanoTime {
-            interpreter.runForMultipleInputsOutputs(arrayOf(inputBuffer), outputMap)
+            Trace.beginSection(TRACE_TFLITE_INFERENCE)
+            try {
+                interpreter.runForMultipleInputsOutputs(arrayOf(inputBuffer), outputMap)
+            } finally {
+                Trace.endSection()
+            }
         }
 
         val detections = buildList {
@@ -219,5 +225,6 @@ class TFLiteDetectorEngine @Inject constructor(
         const val SCORE_THRESHOLD = 0.25f
         const val CPU_THREADS = 4
         const val FLOAT_SIZE_BYTES = 4
+        const val TRACE_TFLITE_INFERENCE = "tflite.inference"
     }
 }
